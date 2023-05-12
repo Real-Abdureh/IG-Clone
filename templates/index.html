@@ -192,9 +192,9 @@
                                     </span>
 <!--                                    {{post.caption}}-->
                                 </div>
-                                <p style="font-size: 13px;">{% for tag in post.tags.all %}
-                                    <a href="" style="text-decoration: none;">
-                                        #{{ tag }}
+                                <p style="font-size: 13px;">{% for tag in post.tag.all %}
+                                    <a href="{{tag.get_absolute_url}}" style="text-decoration: none;">
+                                        #{{tag}}
                                     </a>
                                     {% endfor %}
                                 </p>

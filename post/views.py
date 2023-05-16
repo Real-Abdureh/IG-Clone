@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from post.models import Tag, Stream, Follow, Post
+from .forms import NewPostForm
 from django.contrib.auth.decorators import login_required
 
 def index(request):
@@ -23,6 +24,34 @@ def index(request):
 
 
     return render(request, 'index.html', context)
+
+def NewPost(request):
+    user = request.user
+    tags_objs = []
+
+    if request.method == 'POST':
+        form = NewPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            picture = form.cleaned_data.grt('picture')
+            caption = form.cleaned_data.grt('caption')
+            tag_form = form.cleaned_data.grt('tag')
+            tags_list = list(tag_form.split(',')) # tags will be separated by a comma
+
+            for tag in tags_list:
+                t, created = Tag.objects.get_or_create(title = tag)
+                tags_objs.append(t)
+            p, created = Post.objects.get_or_create(picture=picture, caption=caption, user_id=user)
+            p.tags_list.set(tags_objs)
+            p.save()
+            return redirect('index')
+        
+        else:
+            form = NewPostForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'newpost.html', context)
+
 
 
 # Create your views here.

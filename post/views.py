@@ -52,14 +52,13 @@ def NewPost(request):
     }
     return render(request, 'newpost.html', context)
 
-def PostDetail(request, post_id):
+def PostDetail(request, ):
     post = get_object_or_404(Post, id=post_id)
     context = {
         'post': post
             }
 
-    return render(request, 'post-detail.html')
-
+    return render(request, 'newpost.html', context)
 
 
 # Create your views here.

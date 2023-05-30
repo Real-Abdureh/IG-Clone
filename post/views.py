@@ -52,13 +52,28 @@ def NewPost(request):
     }
     return render(request, 'newpost.html', context)
 
-def PostDetail(request, ):
+def PostDetail(request, post_id):
+    # user = request.user
     post = get_object_or_404(Post, id=post_id)
-    context = {
-        'post': post
-            }
+    # comments = Comment.objects.filter(post=post).order_by('-date')
 
-    return render(request, 'newpost.html', context)
+    # if request.method == "POST":
+    #     form = NewCommentForm(request.POST)
+    #     if form.is_valid():
+    #         comment = form.save(commit=False)
+    #         comment.post = post
+    #         comment.user = user
+    #         comment.save()
+    #         return HttpResponseRedirect(reverse('post-details', args=[post.id]))
+    # else:
+    #     form = NewCommentForm()
+
+    context = {
+        'post': post,
+       
+    }
+
+    return render(request, 'post-detail.html', context)
 
 
 # Create your views here.

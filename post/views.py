@@ -75,5 +75,10 @@ def PostDetail(request, post_id):
 
     return render(request, 'post-detail.html', context)
 
+def like(request, post_id):
+    user = request.user
+    post = Post.objects.get(id=post_id)
+    current_likes = post.likes
+
 
 # Create your views here.

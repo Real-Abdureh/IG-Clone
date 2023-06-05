@@ -94,25 +94,16 @@ def like(request, post_id):
     post.save()
     return HttpResponseRedirect(reverse('post-detail', args=[post_id]))
 
-    def favourite(request, post_id):
-        user = request.user
-        post =Post.objects.get(id=post_id)
-        profile =profile.objects.get(user=user)
-        if profile.favourite.filter(id).exist():
-            profile.favourite.remove(post)
-        else:
-            profile.favourite.add(post)
-        return HttpResponseRedirect(reverse('post-detail', args=[post_id]))
+    
+def favourite(request, post_id):
+    user = request.user
+    post = Post.objects.get(id=post_id)
+    profile = Profile.objects.get(user=user)
 
-# def favourite(request, post_id):
-#     user = request.user
-#     post = Post.objects.get(id=post_id)
-#     profile = Profile.objects.get(user=user)
+    if profile.favourite.filter(id=post_id).exists():
+        profile.favourite.remove(post)
+    else:
+        profile.favourite.add(post)
+    return HttpResponseRedirect(reverse('post-details', args=[post_id]))
 
-#     if profile.favourite.filter(id=post_id).exists():
-#         profile.favourite.remove(post)
-#     else:
-#         profile.favourite.add(post)
-#     return HttpResponseRedirect(reverse('post-details', args=[post_id]))
-
-# Create your views here.
+#Create your views here.

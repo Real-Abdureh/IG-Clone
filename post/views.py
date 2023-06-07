@@ -4,7 +4,7 @@ from post.models import Tag, Stream, Follow, Post, Likes
 from .forms import NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from userauth.models import profile
+from userauth.models import Profile
 
 def index(request):
     user = request.user

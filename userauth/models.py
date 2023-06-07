@@ -7,7 +7,7 @@ from post.models import Post
 def user_driectory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
-class profile(models.Model):
+class Profile(models.Model):
    user = models.OneToOneField(User, on_delete=models.CASCADE)
    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
    first_name = models.CharField(max_length=50, null=True, blank=True)

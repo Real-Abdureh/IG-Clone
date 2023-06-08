@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 
 from userauth.models import Profile
-from userauth.views import userProfile
+from userauth.views import UserProfile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +29,7 @@ urlpatterns = [
 
     #profile url section
 
-    path('<username>/', userProfile, name="profile"),
+    path('<username>/', UserProfile, name="profile"),
     path('<username>/saved', Profile, name="favourite")
 
 ]

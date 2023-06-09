@@ -80,9 +80,17 @@
                    
                     <br><br>
                     <div class="profile-user-settings">
-                        <a  href=""  class="btns profiele-edit-btn">Posts</a>
-                       
-                        <a  href=""  class="btns profeile-edit-btn">Saved</a>
+                        {% if url_name == 'profile' %} 
+                        <a  href="{%url 'profile' profile.user%}"  class="btns profiele-edit-btn" style="color: green;">Posts</a>
+                        {% else %} 
+                        <a  href="{%url 'profile' profile.user%}"  class="btns profiele-edit-btn" style="color: black;">Posts</a>
+                        {% endif %}
+
+                        {% if url_name == 'favourite' %} 
+                        <a  href="{%url 'favourite' profile.user%}"  class="btns profeile-edit-btn" style="color: green;">Saved</a>
+                        {% else  %} 
+                        <a  href="{%url 'favourite' profile.user%}"  class="btns profeile-edit-btn" style="color: rgb(9, 10, 9);">Saved</a>
+                        {% endif %}
                        
                     </div>
                 </div>

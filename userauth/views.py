@@ -60,6 +60,7 @@ def UserProfile(request, username):
     context = {
         'posts': posts,
         'profile':profile,
+        'url_name':url_name,
         # 'posts_count':posts_count,
         # 'following_count':following_count,
         # 'followers_count':followers_count,

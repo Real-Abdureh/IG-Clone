@@ -29,8 +29,8 @@ urlpatterns = [
 
     #profile url section
 
-    path('<username>/', UserProfile, name="profile"),
-    path('<username>/saved', Profile, name="favourite")
+    path('<username>/', UserProfile, name='profile'),
+    path('<username>/saved/', UserProfile, name='favourite'),
 
 ]
 

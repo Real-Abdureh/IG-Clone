@@ -42,28 +42,26 @@
                         
                         <h5 style="font-size: 15px;" class="profile-user-name">@{{profile.user.username}}</h5>
 
-                       
+                       {% if profile.user == request.user %}
                         <a style="text-decoration: none;" href="" class="btn profile-edit-btn">Edit Profile</a>
+                        {% endif %}
                         <a style="text-decoration: none;" href="" class="btn profile-edit-btn">Logout</a>
                         <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 
                         
-                       
+                       {% if profile.user != request.user %}
                         <br><br>
-                       
-                                <a href="" class="btn profile-edit-btn" style="color: red;">Unfollow</a> <br><br>
-                           
-                                <a href="" class="btn profile-edit-btn" style="color: green;">Follow</a> <br><br>
-                         
-
+                        {% if follow_status == True %}
+                                <a href="{% url 'follow' profile.user 0 %}" class="btn profile-edit-btn" style="color: red;">Unfollow</a> <br><br>
+                        {% else %}
+                                <a href="{% url 'follow' profile.user  %}" class="btn profile-edit-btn" style="color: green;">Follow</a> <br><br>
+                        
                                 <a href="" class="btn profile-edit-btn">Message</a> <br><br>
+                        {% endif %}
                         
                         <br>
+                        {% endif %}
 
-                    
-                    
-                    
-                    
 
                 </div>
 
@@ -99,8 +97,8 @@
                 <div class="profile-stats">
 
                     <ul>
-                        <li><span class="profile-stat-count">{{posts_count}}</span> posts</li>
-                        <li><span class="profile-stat-count">{{followers_count}}</span> followers</li>
+                        <li><span class="profile-stat-count">{{post_count}}</span> posts</li>
+                        <li><span class="profile-stat-count">{{follower_count}}</span> followers</li>
                         <li><span class="profile-stat-count">{{following_count}}</span> following</li>
                     </ul>
                     <br>

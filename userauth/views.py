@@ -83,7 +83,7 @@ def follow(request, username, option):
         f, created = Follow.objects.get_or_create(follower=user, following=following)
         if int(option) == 0:
             f.delete()
-            Stream.objects.filter(following=followin, user=user).all().delete()
+            Stream.objects.filter(following=following, user=user).all().delete()
         else:
             posts = Post.objects.filter(user=following)[:10]
 
@@ -91,9 +91,34 @@ def follow(request, username, option):
                 for post in posts:
                     stream = Stream(post=post, user=user, date=post.posted, following=following)
                     stream.save()
-            return HttpResponseRedirect(reverse('profile', args=[username ]))
+        return HttpResponseRedirect(reverse('profile', args=[username ]))
     except User.DoesNotExist:
         return HttpResponseRedirect(reverse('profile', args=[username]))
+    
+
+def editProfile(request):
+    user = request.user
+    profile = Profile.objects.get(user__id=user)
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST. request.FILES)
+        if form.is_valid():
+            profile.picture = form.cleaned_data.get('picture')
+            profile.first_name = form.cleaned_data.get('first_name')
+            profile.last_name = form.cleaned_data.get('last_name')
+            profile.location = form.cleaned_data.get('location')
+            profile.bio = form.cleaned_data.get('bio')
+            profile.url = form.cleaned_data.get('url')#
+            profile.save()
+            return redirect('profile')
+    else:
+        form = EditProfileForm()
+
+        context = {
+        'form': form,
+        
+    }
+    return render(request, 'edit-profile.html', context)
 
 
 

@@ -25,6 +25,7 @@ from userauth.views import UserProfile, follow
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('post/', include('post.urls')),
+    path('users/', include('userauth.urls')),
 
 
     #profile url section

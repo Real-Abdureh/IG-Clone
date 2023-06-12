@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from userauth.models import Profile
+from userauth.forms import EditProfileForm
 from django.urls import resolve, reverse
 from post.models import Post, Follow, Stream
 from django.db import transaction 
@@ -98,7 +99,7 @@ def follow(request, username, option):
 
 def editProfile(request):
     user = request.user
-    profile = Profile.objects.get(user__id=user)
+    profile = Profile.objects.get(user_id=user)
 
     if request.method == 'POST':
         form = EditProfileForm(request.POST. request.FILES)

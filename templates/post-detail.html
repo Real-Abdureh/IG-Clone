@@ -1,8 +1,45 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
+
+<head>
+    <style>
+        
+
+.date {
+    font-size: 11px
+}
+
+.comment-text {
+    font-size: 12px
+}
+
+.fs-12 {
+    font-size: 12px
+}
+
+.shadow-none {
+    box-shadow: none
+}
+
+.name {
+    color: #007bff
+}
+
+.cursor:hover {
+    color: blue
+}
+
+.cursor {
+    cursor: pointer
+}
+
+.textarea {
+    resize: none
+}
+    </style>
+</head>
 
     <main class="main-container">
         <section class="content-container">
@@ -65,7 +102,7 @@
 
                             <div class="post__infos">
                                 <div class="post__likes">
-                                    <a href="#" class="post__likes-avatar"><!--                                        <img src="assets1/default-user.png" alt="User Picture">-->
+                                    <a href="#" class="post__likes-avatar">                                       <img src="{{request.user.profile.picture.url}}" alt="User Picture">
                                     </a>
                                     <span>{{post.likes}} <a class="post__name--underline" href="#">likes</a> <a href="#"></a></span>
                                 </div>
@@ -93,14 +130,14 @@
                                                     {% csrf_token %}
                                                     <div class="bg-light p-2">
                                                         
-                                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="{{request.user.profile.image.url}}" width="30" height="30">{{form.body}}</div>
+                                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="{{request.user.profile.picture.url}}" width="30" height="30">{{form.body}}</div>
                                                         <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
                                                     </div>
                                                 </form>
                                                 
                                                 {% for comment in comments %}
                                                     <div class="bg-white p-2">
-                                                        <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.profile.image.url}}" width="30" height="30">
+                                                        <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.profile.picture.url}}" width="30" height="30">
                                                             <a href="{% url 'profile' comment.user %}" style="text-decoration: none;">
                                                             <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{comment.user.profile.first_name}} {{comment.user.profile.last_name}}</span><span class="date text-black-50"> {{comment.date}}</span></div></a>
                                                         </div>

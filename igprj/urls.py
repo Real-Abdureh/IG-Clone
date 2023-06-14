@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('post/', include('post.urls')),
     path('users/', include('userauth.urls')),
+    # path('users/', include('comment.urls')),
 
 
     #profile url section

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from post.models import Tag, Stream, Follow, Post, Likes
+from comment.forms import commentForm
+from comment.models import Comment
 from .forms import NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -56,27 +58,29 @@ def NewPost(request):
     return render(request, 'newpost.html', context)
 
 def PostDetail(request, post_id):
-    # user = request.user
+    user = request.user
     post = get_object_or_404(Post, id=post_id)
-    # comments = Comment.objects.filter(post=post).order_by('-date')
+    comments = Comment.objects.filter(post=post).order_by('-date')
 
-    # if request.method == "POST":
-    #     form = NewCommentForm(request.POST)
-    #     if form.is_valid():
-    #         comment = form.save(commit=False)
-    #         comment.post = post
-    #         comment.user = user
-    #         comment.save()
-    #         return HttpResponseRedirect(reverse('post-details', args=[post.id]))
-    # else:
-    #     form = NewCommentForm()
+    if request.method == "POST":
+        form = commentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.user = user
+            comment.save()
+            return HttpResponseRedirect(reverse('post-detail', args=[post.id]))
+    else:
+        form = commentForm()
 
     context = {
         'post': post,
-       
+        'form': form,
+        'comments': comments
     }
 
     return render(request, 'post-detail.html', context)
+
 
 def like(request, post_id):
     user = request.user

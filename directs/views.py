@@ -7,26 +7,28 @@ from .models import Message
 @login_required
 def inbox(request):
     user = request.user
-    messages = Message.get_message(user=user)
-    active_directs = None
+    messages = Message.get_message(user=request.user)
+    active_direct = None
     directs = None
+    
 
     if messages:
         message = messages[0]
         active_directs = message['user'].username
-        directs = Message.objects.filter(user=user, recipient=message['user'])
+        directs = Message.objects.filter(user=request.user, recipient=message['user'])
         directs.update(is_read=True)
 
-        for message in message:
-            if messages['user'].username == active_directs:
+        for message in messages:
+            if message['user'].username == active_direct:
                 messages['unread'] = 0
+               
         
-        context = {
-            'directs':directs,
-            'active_directs':active_directs,
-            'messages':messages
+    context = {
+         'directs':directs,
+         'active_directs':active_directs,
+        'messages':messages
         }
-
-        return render(request, 'inbox.html', context)
-
+        
+   
+    return render(request, 'directs/inbox.html', context)
 # Create your views here.

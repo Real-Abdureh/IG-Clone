@@ -140,16 +140,17 @@
 					</div>
 
 						
-						<div class="flex-grow-0 py-3 px-4 border-top">
-							<form method="POST" action="">
-								{% csrf_token %}
-								<div class="input-group">
-									<input type="hidden" name="from-user" id="" value="{{active_direct}}">
-									<input name="body" type="text" class="form-control" placeholder="Type your message">
-									<button class="btn btn-primary" type="submit">Send</button>
-								</div>
-							</form>
-							
+					<div class="flex-grow-0 py-3 px-4 border-top">
+						<form method="POST" role="form" action="{% url 'send-message' %}">
+							{% csrf_token %}
+							<div class="input-group">
+								<input type="hidden" name="to_user" id="" value="{{active_direct}}">
+								<input name="body" type="text" class="form-control" placeholder="Type your message">
+								<button class="btn btn-primary" type="submit">Send</button>
+							</div>
+						
+					</div>
+
 						</div>
 
 				</div>

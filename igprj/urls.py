@@ -39,6 +39,7 @@ urlpatterns = [
     #chat urls
 
     path('directs/<username>', Directs, name='directs'),
+    # path('message/<username>', inbox, name='message'),
 
 ]
 

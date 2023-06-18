@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Message
-
-
+from directs.models import Message
+from django.contrib.auth.models import User
+from userauth.models import Profile
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 @login_required
 def inbox(request):
@@ -10,45 +12,78 @@ def inbox(request):
     messages = Message.get_message(user=request.user)
     active_direct = None
     directs = None
-    
+    profile = get_object_or_404(Profile, user=user)
 
     if messages:
         message = messages[0]
-        active_directs = message['user'].username
+        active_direct = message['user'].username
         directs = Message.objects.filter(user=request.user, recipient=message['user'])
         directs.update(is_read=True)
 
         for message in messages:
             if message['user'].username == active_direct:
-                messages['unread'] = 0
-               
-        
+                message['unread'] = 0
     context = {
-         'directs':directs,
-         'active_directs':active_directs,
-        'messages':messages
-        }
-        
-   
+        'directs':directs,
+        'messages': messages,
+        'active_direct': active_direct,
+        'profile': profile,
+    }
     return render(request, 'directs/inbox.html', context)
 
+
+@login_required
 def Directs(request, username):
-    user = request.user
+    user  = request.user
     messages = Message.get_message(user=user)
-    active_directs = username
-    directs = Message.objects.filter(user=user, recipient__username=username)
+    active_direct = username
+    directs = Message.objects.filter(user=user, recipient__username=username)  
     directs.update(is_read=True)
 
     for message in messages:
-        if message['user'].username == username:
-            message['unread'] = 0
-    
+            if message['user'].username == username:
+                message['unread'] = 0
     context = {
-         'directs':directs,
-         'active_directs':active_directs,
-        'messages':messages
-        }
-    
-    return render(request, 'directs/directs.html', context)
-        
-# Create your views here.
+        'directs': directs,
+        'messages': messages,
+        'active_direct': active_direct,
+    }
+    return render(request, 'directs/inbox.html', context)
+
+def SendMessage(request):
+    from_user = request.user
+    to_user_username = request.POST.get('to_user')
+    body = request.POST.get('body')
+
+    if request.method == "POST":
+        to_user = User.objects.get(username=to_user_username)
+        Message.sender_message(from_user, to_user, body)
+        return redirect('inbox')
+
+# def UserSearch(request):
+#     query = request.GET.get('q')
+#     context = {}
+#     if query:
+#         users = User.objects.filter(Q(username__icontains=query))
+
+#         # Paginator
+#         paginator = Paginator(users, 8)
+#         page_number = request.GET.get('page')
+#         users_paginator = paginator.get_page(page_number)
+
+#         context = {
+#             'users': users_paginator,
+#             }
+
+#     return render(request, 'directs/search.html', context)
+
+# def NewConversation(request, username):
+#     from_user = request.user
+#     body = ''
+#     try:
+#         to_user = User.objects.get(username=username)
+#     except Exception as e:
+#         return redirect('search-users')
+#     if from_user != to_user:
+#         Message.sender_message(from_user, to_user, body)
+#     return redirect('message')

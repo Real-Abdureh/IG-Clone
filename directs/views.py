@@ -58,6 +58,11 @@ def SendDirect(request):
         to_user = User.objects.get(username=to_user_username)
         Message.sender_message(from_user, to_user, body)
         return redirect('message')
+
+def UserSearch(reque)
+
+
+
 # def UserSearch(request):
 #     query = request.GET.get('q')
 #     context = {}

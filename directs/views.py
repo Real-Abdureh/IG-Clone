@@ -59,26 +59,37 @@ def SendDirect(request):
         Message.sender_message(from_user, to_user, body)
         return redirect('message')
 
-def UserSearch(reque)
+def UserSearch(request):
+    query = request.GET.get('q')
+    context = {}
+    if query:
+        users = User.objects.filter(Q(username__icontains=query))
+
+
+        #paginator
+        paginator = Paginator(users, 10)
+        page_number = request.GET.get('page')
+        users_paginator = paginator.get_page(page_number)
+
+        context = {
+        'users': users_paginator,
+        
+    }
+    return render(request, 'directs/search.html', context)
+
+def NewMessage(request, username):
+    from_user = request.user
+    body = 'Hello'
+    try:
+        to_user = User.objects.get(username=username)
+    except Exception as e:
+        return redirect('search-users')
+    if from_user != to_user:
+        Message.sender_message(from_user, to_user,body)
+    return redirect('message')
 
 
 
-# def UserSearch(request):
-#     query = request.GET.get('q')
-#     context = {}
-#     if query:
-#         users = User.objects.filter(Q(username__icontains=query))
-
-#         # Paginator
-#         paginator = Paginator(users, 8)
-#         page_number = request.GET.get('page')
-#         users_paginator = paginator.get_page(page_number)
-
-#         context = {
-#             'users': users_paginator,
-#             }
-
-#     return render(request, 'directs/search.html', context)
 
 # def NewConversation(request, username):
 #     from_user = request.user

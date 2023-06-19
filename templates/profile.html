@@ -44,20 +44,21 @@
 
                        {% if profile.user == request.user %}
                         <a style="text-decoration: none;" href="{% url 'editprofile' %}" class="btn profile-edit-btn">Edit Profile</a>
-                        {% endif %}
+                       
                         <a style="text-decoration: none;" href="" class="btn profile-edit-btn">Logout</a>
                         <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
-
+                        {% endif %}
                         
                        {% if profile.user != request.user %}
-                        <br><br>
-                        {% if follow_status == True %}
+                        <br>
+                            {% if follow_status == True %}
                                 <a href="{% url 'follow' profile.user 0 %}" class="btn profile-edit-btn" style="color: red;">Unfollow</a> <br><br>
-                        {% else %}
+                                <a href="{% url 'new-message' profile.user %}" class="btn profile-edit-btn">Message</a> <br><br>
+                            {% else %}
                                 <a href="{% url 'follow' profile.user 1 %}" class="btn profile-edit-btn" style="color: green;">Follow</a> <br><br>
                         
-                                <a href="" class="btn profile-edit-btn">Message</a> <br><br>
-                        {% endif %}
+                                
+                            {% endif %}
                         
                         <br>
                         {% endif %}

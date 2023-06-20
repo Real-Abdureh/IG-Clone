@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from post.models import Post
+from PIL import Image
+from django.db.models.base import Model
+from django.db.models.fields import DateField
+from django.urls import reverse
+from django.db.models.signals import post_save
+import uuid
+from django.utils import timezone
 
 
 #uploading user file to specific directory
@@ -19,8 +26,38 @@ class Profile(models.Model):
    favourite = models.ManyToManyField(Post)
    picture = models.ImageField(upload_to=user_driectory_path, blank=True, null=True, verbose_name='Picture')
    favourite = models.ManyToManyField(Post)
-#    def __str__(self):
+
+
+   def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+   def __str__(self):
+        return f'{self.user.username} - Profile'
+
+   def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        img = Image.open(self.picture.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.picture.path)
+
+#    def save(self, args, **kwargs):
+#         super().save(*args, **kwargs)
 #         return self.first_name
+   
+#    def __str__(self):
+#        return f'{self.user.username} -profile'
+   
+#    def save(self, args, **kwargs):
+#         super().save(*args, **kwargs)
+#         SIZE = 300, 300
+
+#         if self.picture:
+#            image = Image.open(self.picture.path)
+#            image.thumbnail(SIZE, Image.LANCZOS)
+#            image.save(self.picture.path)
 
 
 # Create your models here.

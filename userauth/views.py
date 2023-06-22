@@ -121,6 +121,30 @@ def editProfile(request):
         'form':form,
     }
     return render(request, 'edit-profile.html', context)
+    
+
+# def editProfile(request):
+#     user = request.user.id
+#     profile = Profile.objects.get(user__id=user)
+
+#     if request.method == "POST":
+#         form = EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
+#         if form.is_valid():
+#             profile.picture = form.cleaned_data.get('picture')
+#             profile.first_name = form.cleaned_data.get('first_name')
+#             profile.last_name = form.cleaned_data.get('last_name')
+#             profile.location = form.cleaned_data.get('location')
+#             profile.url = form.cleaned_data.get('url')
+#             profile.bio = form.cleaned_data.get('bio')
+#             profile.save()
+#             return redirect('profile', profile.user.username)
+#     else:
+#         form = EditProfileForm(instance=request.user.profile)
+
+#     context = {
+#         'form':form,
+#     }
+#     return render(request, 'edit-profile.html', context)
 
 
 def register(request):
@@ -137,7 +161,7 @@ def register(request):
                                     password=form.cleaned_data['password1'],)
             login(request, new_user)
             # return redirect('editprofile')
-            return redirect('index')
+            return redirect('editprofile')
             
 
 
@@ -148,7 +172,7 @@ def register(request):
     context = {
         'form': form,
     }
-    return render(request, 'sign-up.html', context)
+    return render(request, 'authentication/sign-up.html', context)
 
 
 

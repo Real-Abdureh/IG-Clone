@@ -24,7 +24,7 @@ class Profile(models.Model):
    bio = models.CharField(max_length=200, null=True, blank=True)
    created = models.DateField(auto_now_add=True)
    favourite = models.ManyToManyField(Post)
-   picture = models.ImageField(upload_to=user_driectory_path, blank=True, null=True, verbose_name='Picture')
+   picture = models.ImageField(upload_to=user_driectory_path, blank=True, null=True, verbose_name='Picture', default="default.png ")
    favourite = models.ManyToManyField(Post)
 
 

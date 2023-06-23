@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from post.models import Tag, Stream, Follow, Post, Likes
 from comment.forms import commentForm
@@ -10,11 +11,10 @@ from userauth.models import Profile
 
 def index(request):
     user = request.user
-    # # user = request.user
-    # all_users = User.objects.all()
+    all_users = User.objects.all()
     # follow_status = Follow.objects.filter(following=user, follower=request.user).exists()
 
-    # profile = Profile.objects.all()
+    profile = Profile.objects.all()
 
     posts = Stream.objects.filter(user=user)
     group_ids = []
@@ -23,7 +23,9 @@ def index(request):
         
     post_items = Post.objects.filter(id__in=group_ids).all().order_by('-posted')
     context = {
-           'post_items': post_items
+           'post_items': post_items,
+           'all_users': all_users,
+           'profile': profile,
       }
 
 

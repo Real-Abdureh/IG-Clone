@@ -1,8 +1,8 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
-from django.urls import reverse_lazy
-from userauth.views import UserProfile, editProfile
+
+
 
 urlpatterns = [
     path('profile/update', views.editProfile, name='editprofile'),

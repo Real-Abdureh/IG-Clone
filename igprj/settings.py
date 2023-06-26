@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'userauth',
     'comment',
     'directs',
+    'notification',
 ]
 
 MIDDLEWARE = [

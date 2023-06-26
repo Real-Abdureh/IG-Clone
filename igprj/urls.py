@@ -28,6 +28,7 @@ urlpatterns = [
     path('post/', include('post.urls')),
     path('users/', include('userauth.urls')),
     path('message/', include('directs.urls')),
+    path('notification/', include('notification.urls')),
 
 
     #profile url section
